@@ -1,0 +1,24 @@
+<div class="row flex-fill" style="min-height:0;height: 96vh" cdkDropListGroup>
+  <div class="col-9 mh-100" style="overflow-y: scroll; height: 100%;">
+    <!-- <div class="row p-2">
+      <div class="col ">
+        <select class="form-control" id="timeModel" [(ngModel)]="config.timeModel" required>
+          <option *ngFor="let timeModel of timeModels" [value]="timeModel">{{timeModel}}</option>
+        </select>
+      </div>
+      <div class="col">
+        <select class="form-control" id="semesterType" [(ngModel)]="config.startSemester" required>
+          <option *ngFor="let semester of semesterTypes" [value]="semester">{{semester}}</option>
+        </select>
+      </div>
+    </div> -->
+    <div class="row">
+      <app-planner [semesters]="semesters" [dropZones]="dropZones"></app-planner>
+    </div>
+
+  </div>
+  <div class="col-3 mh-100" style="overflow-y: scroll; height: 100%;">
+    <app-module-list [dropZones]="dropZones"></app-module-list>
+
+  </div>
+</div>

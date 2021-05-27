@@ -1,0 +1,17 @@
+<div class="card">
+    <div class="card-header">
+        <h5 i18n>{semester.type, select, Frühling{Frühlingssemester} Herbst {Herbstsemester}}
+            <span class="badge bg-secondary" *ngIf="semester.getCredits() > 0">{{semester.getCredits()}}</span>
+        </h5>
+    </div>
+    <div class="card-body row" cdkDropList [id]='semester.id' [cdkDropListData]="semester.modules"
+        (cdkDropListDropped)="onModuleDrop($event)">
+        <div class="col ">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div *ngFor="let module of semester.modules" class="col">
+                    <app-module [module]="module" [assignedSemester]="semester" [semesters]="semesters"></app-module>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

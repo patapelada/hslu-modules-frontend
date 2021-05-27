@@ -1,0 +1,46 @@
+<div class="card w-auto" cdkDrag>
+    <div class="card-body">
+        <h5 class="card-title">{{module.code}} <span class="badge bg-secondary ">{{module.credits}}</span></h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{module.name}}</h6>
+        <div class="card-text">
+            <p>
+                <span class="fw-bold" [ngClass]="{'text-danger': !getMatchingSemesterStatus()}">
+                    <span *ngIf="module.springSemesterModel">Frühling</span>
+                    <span *ngIf="module.springSemesterModel && module.fallSemesterModel"> & </span>
+                    <span *ngIf="module.fallSemesterModel">Herbst</span>
+                    <span *ngIf="module.intensiveWeekModel"> Blockwoche</span>
+                </span>
+                <span *ngIf="module.language.length > 0">
+                    in
+                    <span *ngFor="let lang of module.language; last as isLast">
+                        {{lang.name}}<ng-template [ngIf]="!isLast"> & </ng-template>
+                    </span>
+                </span>
+            </p>
+
+
+            <div *ngIf="module.requirements.length > 0">
+                <ng-template ngFor let-req [ngForOf]="module.requirements">
+                    <ng-template [ngIf]="req.levelName" [ngIfElse]="listRequirements">
+                        <span class="badge m-1 bg-light text-dark">{{req.levelName}}</span>
+                    </ng-template>
+                    <ng-template #listRequirements>
+                        <span *ngIf="!req.inclusive; else inclusiveDisplay" class="badge m-1"
+                            [ngClass]="{'bg-light text-dark': getRequirementStatus(req), 'bg-danger':!getRequirementStatus(req)}">
+                            <ng-template ngFor let-reqModule [ngForOf]="req.modules" let-isLast="last">
+                                {{reqModule.code}} <em *ngIf="!isLast"> / </em>
+                            </ng-template>
+                        </span>
+                        <ng-template #inclusiveDisplay>
+                            <span class="badge m-1" *ngFor="let reqModule of req.modules"
+                                [ngClass]="{'bg-light text-dark': getRequirementStatus(req), 'bg-danger':!getRequirementStatus(req)}">
+                                {{reqModule.code}}
+                            </span>
+                        </ng-template>
+                    </ng-template>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="card-footer bg-transparent"></div> -->
+</div>

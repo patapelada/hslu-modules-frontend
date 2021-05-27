@@ -1,0 +1,65 @@
+<div class="row pt-2">
+    <div class="col">
+        <h4>Module</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="accordion accordion-flush " id="modulesAccordion">
+            <div *ngFor="let entry of groupedModules| keyvalue" cdkDropList [id]='entry.key'
+                [cdkDropListData]="entry.value" (cdkDropListDropped)="onModuleDrop($event)" class="accordion-item">
+                <h2 class="accordion-header" id="heading{{entry.key}}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        attr.data-bs-target="#collapse{{entry.key}}" aria-expanded="false"
+                        attr.aria-controls="collapse{{entry.key}}" i18n>
+                        {entry.key, select, CORE_ASSESSMENT {Kern-Module Assessment} CORE_INTERMEDIATE {Kern-Module
+                        Intermediate} EXTENSION {Erweiterungsmodule} ADDITIVE {Zusatzmodule} PROJECT {Projektmodule}}
+                    </button>
+                </h2>
+                <div id="collapse{{entry.key}}" class="accordion-collapse collapse"
+                    attr.aria-labelledby="heading{{entry.key}}" data-bs-parent="#modulesAccordion">
+                    <div class="row row-cols-1 pt-2 pb-2 g-2">
+                        <div *ngFor="let module of entry.value">
+                            <app-module [module]="module"></app-module>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row pt-2">
+    <div class="col">
+        <h4>Majors</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="accordion accordion-flush " id="majorsAccordion">
+            <div *ngFor="let major of majors" class="accordion-item">
+                <h2 class="accordion-header" id="headingMajor{{major.id}}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        attr.data-bs-target="#collapseMajor{{major.id}}" aria-expanded="false"
+                        attr.aria-controls="collapseMajor{{major.id}}" i18n>
+                        {{major.name}}
+                    </button>
+                </h2>
+                <div id="collapseMajor{{major.id}}" class="accordion-collapse collapse"
+                    attr.aria-labelledby="headingMajor{{major.id}}" data-bs-parent="#modulesAccordion">
+                    <ng-template ngFor let-req [ngForOf]="major.requirements">
+
+                        <h6 *ngIf="!req.inclusive">Entweder oder:</h6>
+                        <div class="row row-cols-1 g-2 pt-2 pb-2" [ngClass]="{'row-cols-md-2':!req.inclusive}">
+
+                            <div *ngFor="let module of req.modules" cdkDropList [cdkDropListData]="req.modules"
+                                (cdkDropListDropped)="onModuleDrop($event)">
+                                <app-module [module]="module"></app-module>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
