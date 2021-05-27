@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class DegreeProgramService {
-  apiUrl: string = environment.apiRoot.concat("/degreeProgram/IBA")
+  apiUrl: string = environment.apiRoot.concat("/api/degreeProgram/IBA")
 
   constructor(private http: HttpClient) { }
 

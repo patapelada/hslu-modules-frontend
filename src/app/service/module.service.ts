@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ModuleService {
-  apiUrl: string = environment.apiRoot.concat("/module")
+  apiUrl: string = environment.apiRoot.concat("/api/module")
 
   constructor(private http: HttpClient) { }
 
