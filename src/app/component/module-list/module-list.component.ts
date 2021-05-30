@@ -7,6 +7,7 @@ import { DegreeProgram } from 'src/app/model/degree-program';
 import { MajorProgram } from 'src/app/model/major-program';
 import { stringify } from '@angular/compiler/src/util';
 import { Requirement } from 'src/app/model/requirement';
+import { PlannerConfigService } from 'src/app/service/planner-config.service';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class ModuleListComponent implements OnInit {
   groupedModules!: Map<MODULE_TYPE, Module[]>;
   moduleTypes: string[] = Object.keys(MODULE_TYPE);
 
-  constructor(private moduleService: ModuleService, private degreeProgramService: DegreeProgramService) {
+  constructor(private moduleService: ModuleService, private degreeProgramService: DegreeProgramService, private plannerConfigService: PlannerConfigService) {
   }
 
   ngOnInit(): void {
@@ -32,7 +33,8 @@ export class ModuleListComponent implements OnInit {
   }
 
   initMajorModules() {
-    this.degreeProgramService.getAll().subscribe(
+    const degreeProgram = this.plannerConfigService.getConfig().degreeProgram;
+    this.degreeProgramService.get(degreeProgram.id).subscribe(
       (data: DegreeProgram) => {
         data.majors.forEach(major => {
           this.majors.push(new MajorProgram().deserialize(major));

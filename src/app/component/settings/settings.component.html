@@ -1,0 +1,50 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-labeled btn-secondary" (click)="showModal()">
+    <span class="btn-label"><i class="fa fa-gear"></i></span>Anpassen
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="settingsModalLabel">Dein Studium</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form (ngSubmit)="onSubmit()" #settingsForm="ngForm">
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="degreeProgram" class="col-form-label">Studiengang:</label>
+                        <select class="form-control" id="degreeProgram" name="degreeProgram" required
+                            [(ngModel)]="config.degreeProgram">
+                            <option *ngFor="let program of degreePrograms" [value]="program">
+                                {{program.name}}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="startSemester" class="col-form-label">Studienstart:</label>
+                        <select class="form-control" id="startSemester" name="startSemester" required
+                            [(ngModel)]="config.startSemester">
+                            <option *ngFor="let semester of startSemesters" [value]="semester">
+                                {{semester}}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="timeModel" class="col-form-label">Zeitmodell:</label>
+                        <select class="form-control" id="timeModel" name="timeMode" required
+                            [(ngModel)]="config.timeModel">
+                            <option *ngFor="let timeModel of timeModels" [value]="timeModel">
+                                {{timeModel}}</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

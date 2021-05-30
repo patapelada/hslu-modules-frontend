@@ -21,10 +21,13 @@ export class SemesterComponent implements OnInit {
   }
 
   onModuleDrop(event: CdkDragDrop<Module[]>) {
-    console.log("module drop");
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
+      if (event.previousContainer.element.nativeElement.classList.contains("module-library")) {
+        // moved from library to planner
+        event.previousContainer.data[event.previousIndex].initialLibraryContainer = event.previousContainer;
+      }
       transferArrayItem(event.previousContainer.data,
         event.container.data,
         event.previousIndex,

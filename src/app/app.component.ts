@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { DegreeProgram } from './model/degree-program';
 import { MODULE_TYPE } from './model/module';
 import { PlannerConfig, SemesterType, TimeModel } from './model/planner-config';
 import { Semester } from './model/semester';
+import { PlannerConfigService } from './service/planner-config.service';
+import { copyArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-root',
@@ -10,18 +13,34 @@ import { Semester } from './model/semester';
 })
 export class AppComponent implements OnInit {
 
-  config: PlannerConfig = new PlannerConfig(TimeModel.FULL_TIME, SemesterType.FALL_SEMESTER);
+  config!: PlannerConfig;
   timeModels = Object.values(TimeModel);
   semesterTypes = Object.values(SemesterType);
-  semesters: Semester[] = [];
+  semesters!: Semester[];
 
-  constructor() { }
+  constructor(private plannerConfigService: PlannerConfigService) {
+
+  }
 
   ngOnInit(): void {
     this.initSemesters()
   }
 
   initSemesters() {
+    this.config = this.plannerConfigService.getConfig();
+    if (this.semesters && this.semesters.length > 0) {
+      // move modules back to their initial container
+      for (const semester of this.semesters) {
+        let i = 0;
+        for (const module of semester.modules) {
+          if (module.initialLibraryContainer) {
+            copyArrayItem(semester.modules, module.initialLibraryContainer.data, i, module.initialLibraryContainer.data.length);
+          }
+          i++;
+        }
+      }
+    }
+    this.semesters = [];
     let semesterCount = 6;
     if (this.config.timeModel == TimeModel.PART_TIME) {
       semesterCount += 2;

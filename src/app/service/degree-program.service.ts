@@ -10,11 +10,15 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class DegreeProgramService {
-  apiUrl: string = environment.apiRoot.concat("/api/degreeProgram/IBA")
+  apiUrl: string = environment.apiRoot.concat("/api/degreeProgram")
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<DegreeProgram> {
-    return this.http.get<DegreeProgram>(this.apiUrl);
+  get(id: string): Observable<DegreeProgram> {
+    return this.http.get<DegreeProgram>(this.apiUrl.concat("/").concat(id));
+  }
+
+  getAll(): Observable<DegreeProgram[]> {
+    return this.http.get<DegreeProgram[]>(this.apiUrl);
   }
 }

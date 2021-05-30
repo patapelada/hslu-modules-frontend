@@ -10,6 +10,7 @@ import { ModuleListComponent } from './component/module-list/module-list.compone
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { SettingsComponent } from './component/settings/settings.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     ModuleComponent,
     SemesterComponent,
     ModuleListComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

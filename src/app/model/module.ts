@@ -1,3 +1,4 @@
+import { CdkDropList } from "@angular/cdk/drag-drop";
 import { Deserializable } from "./deserializable";
 import { Language } from "./language";
 import { Requirement } from "./requirement";
@@ -15,6 +16,8 @@ export class Module implements Deserializable<Module> {
     fallSemesterModel!: boolean;
     springSemesterModel!: boolean;
     intensiveWeekModel!: boolean;
+
+    initialLibraryContainer?: CdkDropList<Module[]>;
 
     deserialize(input: any): Module {
         Object.assign(this, input);
