@@ -42,7 +42,7 @@ export class ModuleListComponent implements OnInit {
   initMajorModules() {
     const degreeProgram = this.plannerConfigService.getConfig().degreeProgram;
 
-    this.degreeProgramService.get(degreeProgram.id).subscribe(
+    this.degreeProgramService.get(degreeProgram.id ? degreeProgram.id : "IBA").subscribe(
       (data: DegreeProgram) => {
         data.majors.forEach(major => {
           this.majors.push(new MajorProgram().deserialize(major));
