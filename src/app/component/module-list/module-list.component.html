@@ -48,17 +48,17 @@
                 </h2>
                 <div id="collapseMajor{{major.id}}" class="accordion-collapse collapse"
                     attr.aria-labelledby="headingMajor{{major.id}}" data-bs-parent="#majorsAccordion">
-                    <ng-template ngFor let-req [ngForOf]="major.requirements">
+                    <div *ngFor="let req of major.requirements" class="module-library" cdkDropList
+                        [cdkDropListData]="req.modules" (cdkDropListDropped)="onModuleDrop($event)">
 
                         <h6 *ngIf="!req.inclusive">Entweder oder:</h6>
                         <div class="row row-cols-1 g-2 pt-2 pb-2" [ngClass]="{'row-cols-md-2':!req.inclusive}">
 
-                            <div *ngFor="let module of req.modules" class="module-library" cdkDropList
-                                [cdkDropListData]="req.modules" (cdkDropListDropped)="onModuleDrop($event)">
+                            <ng-template ngFor let-module [ngForOf]="req.modules">
                                 <app-module [module]="module"></app-module>
-                            </div>
+                            </ng-template>
                         </div>
-                    </ng-template>
+                    </div>
                 </div>
             </div>
         </div>
