@@ -61,7 +61,7 @@ export class SettingsComponent implements OnInit {
   onSubmit() {
     this.plannerConfigService.setConfig(this.config);
     this.configUpdatedEvent.emit(this.plannerConfigService.getConfig());
-    this.localStorageService.remove(Semester.name);
+    this.localStorageService.remove(this.localStorageService.SEMESTER_CONFIG_KEY);
     this.closeModal();
   }
 

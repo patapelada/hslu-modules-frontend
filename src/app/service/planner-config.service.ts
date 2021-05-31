@@ -10,7 +10,7 @@ export class PlannerConfigService {
 
   config: PlannerConfig;
   constructor(private localStorageService: LocalStorageService) {
-    var localConfig = localStorageService.get(PlannerConfig.name);
+    var localConfig = localStorageService.get(localStorageService.PLANNER_CONFIG_KEY);
     if (localConfig) {
       this.config = localConfig;
     } else {
@@ -25,6 +25,6 @@ export class PlannerConfigService {
 
   setConfig(config: PlannerConfig) {
     this.config = config;
-    this.localStorageService.set(PlannerConfig.name, this.config);
+    this.localStorageService.set(this.localStorageService.PLANNER_CONFIG_KEY, this.config);
   }
 }

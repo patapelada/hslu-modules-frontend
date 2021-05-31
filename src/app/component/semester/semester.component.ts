@@ -34,7 +34,7 @@ export class SemesterComponent implements OnInit {
         actualIndex,
         event.currentIndex);
     }
-    this.localStorageService.set(Semester.name, this.getCurrentSemesterConfiguration());
+    this.localStorageService.set(this.localStorageService.SEMESTER_CONFIG_KEY, this.getCurrentSemesterConfiguration());
   }
 
   getCurrentSemesterConfiguration() {

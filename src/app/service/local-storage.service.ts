@@ -5,6 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class LocalStorageService {
   localStorage: Storage;
+  SEMESTER_CONFIG_KEY = "semesters";
+  PLANNER_CONFIG_KEY = "setup";
 
   constructor() {
     this.localStorage = window.localStorage;

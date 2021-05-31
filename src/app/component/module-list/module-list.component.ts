@@ -54,7 +54,7 @@ export class ModuleListComponent implements OnInit {
     private degreeProgramService: DegreeProgramService,
     private plannerConfigService: PlannerConfigService,
     private localStorageService: LocalStorageService) {
-    this.semesterConfig = localStorageService.get(Semester.name);
+    this.semesterConfig = localStorageService.get(localStorageService.SEMESTER_CONFIG_KEY);
   }
 
   ngOnInit(): void {
