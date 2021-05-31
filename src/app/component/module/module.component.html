@@ -1,4 +1,4 @@
-<div class="card w-auto" cdkDrag>
+<div class="card w-auto" cdkDrag [attr.data-module-id]="module.id">
     <div class="card-body">
         <h5 class="card-title">{{module.code}} <span class="badge bg-secondary ">{{module.credits}}</span></h5>
         <h6 class="card-subtitle mb-2 text-muted">{{module.name}}</h6>

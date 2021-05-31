@@ -20,16 +20,18 @@ export class SemesterComponent implements OnInit {
   }
 
   onModuleDrop(event: CdkDragDrop<Module[]>) {
+    const moduleId = Number(event.item.element.nativeElement.getAttribute("data-module-id"));
+    const actualIndex = event.previousContainer.data.findIndex(m => m.id == moduleId)
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(event.previousContainer.data, actualIndex, event.currentIndex);
     } else {
       if (event.previousContainer.element.nativeElement.classList.contains("module-library")) {
         // moved from library to planner
-        event.previousContainer.data[event.previousIndex].initialLibraryContainer = event.previousContainer;
+        event.previousContainer.data[actualIndex].initialLibraryContainer = event.previousContainer;
       }
       transferArrayItem(event.previousContainer.data,
         event.container.data,
-        event.previousIndex,
+        actualIndex,
         event.currentIndex);
     }
     this.localStorageService.set(Semester.name, this.getCurrentSemesterConfiguration());

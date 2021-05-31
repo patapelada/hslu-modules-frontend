@@ -25,6 +25,29 @@ export class ModuleListComponent implements OnInit {
   groupedModules!: Map<MODULE_TYPE, Module[]>;
   moduleTypes: string[] = Object.keys(MODULE_TYPE);
   semesterConfig: Map<number, number>;
+  filter!: string;
+
+  filterModule = (module: Module) => {
+    if (!this.filter)
+      return true;
+    const searchTerm = this.filter.toLowerCase();
+    return module.name.toLowerCase().startsWith(searchTerm) || module.code.toLowerCase().startsWith(searchTerm);
+  }
+
+  filterModuleType = (entry: [MODULE_TYPE, Module[]]) => {
+    const filteredModules = (Object.values(entry)[1] as Module[]).filter(this.filterModule);
+    return filteredModules.length > 0;
+  }
+
+  filterRequirements = (req: Requirement) => {
+    const filteredRequirements = req.modules.filter(this.filterModule)
+    return filteredRequirements.length > 0;
+  }
+
+  filterMajors = (major: MajorProgram) => {
+    const filteredMajors = major.requirements.filter(this.filterRequirements);
+    return filteredMajors.length > 0;
+  }
 
 
   constructor(private moduleService: ModuleService,

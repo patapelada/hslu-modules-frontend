@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SettingsComponent } from './component/settings/settings.component';
+import { CallbackPipe } from './util/callback.pipe';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { SettingsComponent } from './component/settings/settings.component';
     SemesterComponent,
     ModuleListComponent,
     SettingsComponent,
+    CallbackPipe,
   ],
   imports: [
     BrowserModule,
