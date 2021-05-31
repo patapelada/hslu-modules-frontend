@@ -4,11 +4,11 @@
       <app-settings (configUpdatedEvent)="initSemesters()"></app-settings>
     </div>
     <div class="row">
-      <app-planner [semesters]="semesters" [dropZones]="dropZones"></app-planner>
+      <app-planner [semesters]="semesters"></app-planner>
     </div>
 
   </div>
   <div class="col-3 mh-100" style="overflow-y: scroll; height: 100%;">
-    <app-module-list [dropZones]="dropZones"></app-module-list>
+    <app-module-list [semesters]="semesters"></app-module-list>
   </div>
 </div>

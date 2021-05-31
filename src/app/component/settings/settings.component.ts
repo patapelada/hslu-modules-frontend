@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/cor
 import { Modal } from 'bootstrap';
 import { DegreeProgram } from 'src/app/model/degree-program';
 import { PlannerConfig, SemesterType, TimeModel } from 'src/app/model/planner-config';
+import { Semester } from 'src/app/model/semester';
 import { DegreeProgramService } from 'src/app/service/degree-program.service';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { PlannerConfigService } from 'src/app/service/planner-config.service';
@@ -21,7 +22,7 @@ export class SettingsComponent implements OnInit {
   startSemesters = Object.values(SemesterType);
   modal?: Modal;
 
-  constructor(private degreeProgramService: DegreeProgramService, private plannerConfigService: PlannerConfigService) {
+  constructor(private degreeProgramService: DegreeProgramService, private plannerConfigService: PlannerConfigService, private localStorageService: LocalStorageService) {
     this.loadConfig();
   }
 
@@ -60,6 +61,7 @@ export class SettingsComponent implements OnInit {
   onSubmit() {
     this.plannerConfigService.setConfig(this.config);
     this.configUpdatedEvent.emit(this.plannerConfigService.getConfig());
+    this.localStorageService.remove(Semester.name);
     this.closeModal();
   }
 

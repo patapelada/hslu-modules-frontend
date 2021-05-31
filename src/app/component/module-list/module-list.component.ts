@@ -5,9 +5,10 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { DegreeProgramService } from 'src/app/service/degree-program.service';
 import { DegreeProgram } from 'src/app/model/degree-program';
 import { MajorProgram } from 'src/app/model/major-program';
-import { stringify } from '@angular/compiler/src/util';
 import { Requirement } from 'src/app/model/requirement';
 import { PlannerConfigService } from 'src/app/service/planner-config.service';
+import { Semester } from 'src/app/model/semester';
+import { LocalStorageService } from 'src/app/service/local-storage.service';
 
 
 @Component({
@@ -17,23 +18,30 @@ import { PlannerConfigService } from 'src/app/service/planner-config.service';
 })
 export class ModuleListComponent implements OnInit {
 
-  @Input() dropZones!: string;
+  @Input() semesters?: Semester[];
 
   modules: Module[] = [];
   majors: MajorProgram[] = [];
   groupedModules!: Map<MODULE_TYPE, Module[]>;
   moduleTypes: string[] = Object.keys(MODULE_TYPE);
+  semesterConfig: Map<number, number>;
 
-  constructor(private moduleService: ModuleService, private degreeProgramService: DegreeProgramService, private plannerConfigService: PlannerConfigService) {
+
+  constructor(private moduleService: ModuleService,
+    private degreeProgramService: DegreeProgramService,
+    private plannerConfigService: PlannerConfigService,
+    private localStorageService: LocalStorageService) {
+    this.semesterConfig = localStorageService.get(Semester.name);
   }
 
   ngOnInit(): void {
-    this.initModules();
     this.initMajorModules();
+    this.initModules();
   }
 
   initMajorModules() {
     const degreeProgram = this.plannerConfigService.getConfig().degreeProgram;
+
     this.degreeProgramService.get(degreeProgram.id).subscribe(
       (data: DegreeProgram) => {
         data.majors.forEach(major => {
@@ -47,6 +55,7 @@ export class ModuleListComponent implements OnInit {
             return Number(other.inclusive) - Number(requirement.inclusive);
           });
           for (const req of major.requirements) {
+            this.fillAlreadyAssignedSemesters(req.modules);
             req.modules.sort((module: Module, other: Module) => {
               return module.code.localeCompare(other.code);
             })
@@ -56,8 +65,6 @@ export class ModuleListComponent implements OnInit {
       error => {
         console.log(error);
       });
-
-
   }
 
   initModules() {
@@ -66,12 +73,31 @@ export class ModuleListComponent implements OnInit {
         data.forEach(module => {
           this.modules.push(new Module().deserialize(module));
         });
+        this.fillAlreadyAssignedSemesters(this.modules);
         this.groupedModules = this.groupBy(this.modules, (module: any) => module.type);
       },
       error => {
         console.log(error);
       });
+  }
 
+  fillAlreadyAssignedSemesters(modules: Module[]) {
+    if (this.semesters && this.semesterConfig) {
+      for (const [moduleId, semesterIndex] of this.semesterConfig) {
+        let foundModule = modules.find(m => m.id === moduleId);
+        if (foundModule) {
+          this.semesters[semesterIndex - 1].modules.push(foundModule);
+          this.semesterConfig.delete(moduleId);
+          modules.forEach((module, index) => {
+            if (module === foundModule) modules.splice(index, 1);
+          });
+        }
+      }
+    }
+  }
+
+  findModuleById(module: Module, id: number) {
+    return module.id === id;
   }
 
   onModuleDrop(event: CdkDragDrop<Module[]>) {
@@ -101,5 +127,6 @@ export class ModuleListComponent implements OnInit {
     return map;
   }
 }
+
 
 

@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { Semester } from 'src/app/model/semester';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Module } from 'src/app/model/module';
+import { LocalStorageService } from 'src/app/service/local-storage.service';
 
 @Component({
   selector: 'app-semester',
@@ -12,10 +13,8 @@ export class SemesterComponent implements OnInit {
 
   @Input() semester!: Semester;
   @Input() semesters!: Semester[];
-  @Input() dropZones!: string;
 
-
-  constructor() { }
+  constructor(private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
   }
@@ -33,5 +32,17 @@ export class SemesterComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
     }
+    this.localStorageService.set(Semester.name, this.getCurrentSemesterConfiguration());
+  }
+
+  getCurrentSemesterConfiguration() {
+    let map = new Map<number, number>();
+    for (const semester of this.semesters) {
+      for (const module of semester.modules) {
+        map.set(module.id, semester.id);
+      }
+    }
+
+    return map;
   }
 }

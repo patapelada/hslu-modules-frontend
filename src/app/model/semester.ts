@@ -3,7 +3,7 @@ import { SemesterType } from "./planner-config";
 
 export class Semester {
     constructor(
-        public id: string,
+        public id: number,
         public type: SemesterType,
         public modules: Module[]
     ) { }

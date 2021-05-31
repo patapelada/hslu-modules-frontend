@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { DegreeProgram } from './model/degree-program';
 import { MODULE_TYPE } from './model/module';
 import { PlannerConfig, SemesterType, TimeModel } from './model/planner-config';
 import { Semester } from './model/semester';
 import { PlannerConfigService } from './service/planner-config.service';
-import { copyArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDropList, copyArrayItem } from '@angular/cdk/drag-drop';
+import { LocalStorageService } from './service/local-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ export class AppComponent implements OnInit {
   semesterTypes = Object.values(SemesterType);
   semesters!: Semester[];
 
-  constructor(private plannerConfigService: PlannerConfigService) {
+  constructor(private plannerConfigService: PlannerConfigService, private localStorageService: LocalStorageService) {
 
   }
 
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit {
         }
       }
     }
+
     this.semesters = [];
     let semesterCount = 6;
     if (this.config.timeModel == TimeModel.PART_TIME) {
@@ -47,19 +49,9 @@ export class AppComponent implements OnInit {
     }
     let lastSemester = this.config.startSemester;
     for (let index = 1; index <= semesterCount; index++) {
-      this.semesters[index - 1] = new Semester("semester" + index, lastSemester, []);
+      this.semesters[index - 1] = new Semester(index, lastSemester, []);
       lastSemester = lastSemester == SemesterType.FALL_SEMESTER ? SemesterType.SPRING_SEMESTER : SemesterType.FALL_SEMESTER;
     }
-  }
-
-  get dropZones(): string {
-    let moduleIds: string[] = Object.keys(MODULE_TYPE);
-    let ids: string[] = this.semesters.map(semester => semester.id)
-    moduleIds.forEach(id => {
-      ids.push(id);
-    });
-
-    return "[" + ids.join(',') + "]";
   }
 
 }

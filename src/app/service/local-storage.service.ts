@@ -14,7 +14,7 @@ export class LocalStorageService {
     if (this.isLocalStorageSupported) {
       let item = this.localStorage.getItem(key)
       if (item) {
-        return JSON.parse(item);
+        return JSON.parse(item, this.reviver);
       }
     }
     return null;
@@ -22,10 +22,30 @@ export class LocalStorageService {
 
   set(key: string, value: any): boolean {
     if (this.isLocalStorageSupported) {
-      this.localStorage.setItem(key, JSON.stringify(value));
+      this.localStorage.setItem(key, JSON.stringify(value, this.replacer));
       return true;
     }
     return false;
+  }
+
+  replacer(key: any, value: any) {
+    if (value instanceof Map) {
+      return {
+        dataType: 'Map',
+        value: Array.from(value.entries()),
+      };
+    } else {
+      return value;
+    }
+  }
+
+  reviver(key: any, value: any) {
+    if (typeof value === 'object' && value !== null) {
+      if (value.dataType === 'Map') {
+        return new Map(value.value);
+      }
+    }
+    return value;
   }
 
   remove(key: string): boolean {
