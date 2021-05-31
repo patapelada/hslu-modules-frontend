@@ -55,8 +55,7 @@
                 <div id="collapseMajor{{major.id}}" class="accordion-collapse collapse"
                     attr.aria-labelledby="headingMajor{{major.id}}" data-bs-parent="#majorsAccordion">
                     <div *ngFor="let req of major.requirements| callback: filterRequirements" class="module-library"
-                        cdkDropList [cdkDropListData]="req.modules| callback: filterModule"
-                        (cdkDropListDropped)="onModuleDrop($event)">
+                        cdkDropList [cdkDropListData]="req.modules" (cdkDropListDropped)="onModuleDrop($event)">
 
                         <h6 *ngIf="!req.inclusive">Entweder oder:</h6>
                         <div class="row row-cols-1 g-2 pt-2 pb-2" [ngClass]="{'row-cols-md-2':!req.inclusive}">
