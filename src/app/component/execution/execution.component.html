@@ -1,0 +1,20 @@
+<div class="card w-auto">
+    <div class="card-body">
+        <h5 class="card-title">{{module.code}} <span class="badge bg-secondary ">{{module.credits}}</span></h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{module.name}}</h6>
+        <div class="card-text">
+            <app-module-requirement [requirements]="module.requirements"></app-module-requirement>
+        </div>
+
+        <div class="list-group list-group-flush">
+            <a *ngFor="let execution of module.executions ;last as last ; index as i"
+                class="list-group-item  list-group-item-action" (click)="addToSemester(execution)">
+                <ng-template ngFor let-last="last" let-block [ngForOf]="execution.blocks" i18n>
+                    {block.day, select, 1 {MO} 2 {DI} 3 {MI} 4 {DO} 5 {FR} 6 {SA} } @
+                    {block.number, select, 1 {09:05} 2 {12:50} 3 {13:30} 4{18:30}}
+                    <ng-template [ngIf]="! last"> &</ng-template>
+                </ng-template>
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div *ngIf="requirements.length > 0">
+    <ng-template ngFor let-req [ngForOf]="requirements">
+        <ng-template [ngIf]="req.levelName" [ngIfElse]="listRequirements">
+            <span class="badge m-1 bg-light text-dark">{{req.levelName}}</span>
+        </ng-template>
+        <ng-template #listRequirements>
+            <span *ngIf="!req.inclusive; else inclusiveDisplay" class="badge m-1"
+                [ngClass]="{'bg-light text-dark': getRequirementStatus(req), 'bg-danger':!getRequirementStatus(req)}">
+                <ng-template ngFor let-reqModule [ngForOf]="req.modules" let-isLast="last">
+                    {{reqModule.code}} <em *ngIf="!isLast"> / </em>
+                </ng-template>
+            </span>
+            <ng-template #inclusiveDisplay>
+                <span class="badge m-1" *ngFor="let reqModule of req.modules"
+                    [ngClass]="{'bg-light text-dark': getRequirementStatus(req), 'bg-danger':!getRequirementStatus(req)}">
+                    {{reqModule.code}}
+                </span>
+            </ng-template>
+        </ng-template>
+    </ng-template>
+</div>

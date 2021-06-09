@@ -1,0 +1,64 @@
+<div class="row pt-2">
+    <div class="col">
+        <input type="search" class="form-control" placeholder="Search..." aria-label="Search" [(ngModel)]="filter">
+    </div>
+</div>
+
+<div class="row pt-2">
+    <div class="col">
+        <h4>Module</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="accordion accordion-flush " id="executionAccordion">
+            <div *ngFor="let entry of groupedModules| keyvalue |callback: filterModuleType" class="accordion-item">
+                <h2 class="accordion-header" id="headingEModule{{entry.key}}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        attr.data-bs-target="#collapseEModule{{entry.key}}" aria-expanded="false"
+                        attr.aria-controls="collapseEModule{{entry.key}}" i18n>
+                        {entry.key, select, CORE_ASSESSMENT {Kern-Module Assessment} CORE_INTERMEDIATE {Kern-Module
+                        Intermediate} EXTENSION {Erweiterungsmodule} ADDITIVE {Zusatzmodule} PROJECT {Projektmodule}}
+                    </button>
+                </h2>
+                <div id="collapseEModule{{entry.key}}" class="accordion-collapse collapse"
+                    attr.aria-labelledby="headingEModule{{entry.key}}" data-bs-parent="#executionAccordion">
+                    <div class="row row-cols-1 pt-2 pb-2 g-2">
+                        <div *ngFor="let module of entry.value | callback: filterModule">
+                            <app-execution [module]="module" [week]="week"></app-execution>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row pt-2">
+    <div class="col">
+        <h4>Majors</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="accordion accordion-flush " id="executionMajorAccordion">
+            <div *ngFor="let entry of groupedMajorModules| keyvalue |callback: filterMajor" class="accordion-item">
+                <h2 class="accordion-header" id="headingEMajor{{entry.key.id}}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        attr.data-bs-target="#collapseEMajor{{entry.key.id}}" aria-expanded="false"
+                        attr.aria-controls="collapseEMajor{{entry.key.id}}" i18n>
+                        {{entry.key.name}}
+                    </button>
+                </h2>
+                <div id="collapseEMajor{{entry.key.id}}" class="accordion-collapse collapse"
+                    attr.aria-labelledby="headingEMajor{{entry.key.id}}" data-bs-parent="#executionMajorAccordion">
+                    <div class="row row-cols-1 pt-2 pb-2 g-2">
+                        <div *ngFor="let module of entry.value | callback: filterModule">
+                            <app-execution [module]="module" [week]="week"></app-execution>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

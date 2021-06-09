@@ -1,0 +1,6 @@
+<span *ngIf="module.language.length > 0">
+    in
+    <span *ngFor="let lang of module.language; last as isLast">
+        {{lang.name}}<ng-template [ngIf]="!isLast"> & </ng-template>
+    </span>
+</span>

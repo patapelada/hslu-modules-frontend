@@ -1,0 +1,19 @@
+<div class="row flex-fill" style="min-height:0;height: 92vh" cdkDropListGroup>
+    <div class="col-9 mh-100" style="overflow-y: scroll; height: 100%;">
+        <div class="row p-2">
+            <app-settings (configUpdatedEvent)="initSemesters()"></app-settings>
+
+        </div>
+        <div class="row">
+            <div>
+                <div *ngFor="let semester of semesters.slice().reverse()" class="p-2">
+                    <app-semester [semester]="semester" [semesters]="semesters"></app-semester>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-3 mh-100" style="overflow-y: scroll; height: 100%;">
+        <app-module-list [semesters]="semesters"></app-module-list>
+    </div>
+</div>

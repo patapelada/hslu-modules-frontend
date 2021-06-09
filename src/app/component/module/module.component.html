@@ -10,12 +10,7 @@
                     <span *ngIf="module.fallSemesterModel">Herbst</span>
                     <span *ngIf="module.intensiveWeekModel"> Blockwoche</span>
                 </span>
-                <span *ngIf="module.language.length > 0">
-                    in
-                    <span *ngFor="let lang of module.language; last as isLast">
-                        {{lang.name}}<ng-template [ngIf]="!isLast"> & </ng-template>
-                    </span>
-                </span>
+                <app-module-language [module]="module"></app-module-language>
             </p>
 
 

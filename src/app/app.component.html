@@ -1,14 +1,9 @@
-<div class="row flex-fill" style="min-height:0;height: 96vh" cdkDropListGroup>
-  <div class="col-9 mh-100" style="overflow-y: scroll; height: 100%;">
-    <div class="row p-2">
-      <app-settings (configUpdatedEvent)="initSemesters()"></app-settings>
-    </div>
-    <div class="row">
-      <app-planner [semesters]="semesters"></app-planner>
-    </div>
-
-  </div>
-  <div class="col-3 mh-100" style="overflow-y: scroll; height: 100%;">
-    <app-module-list [semesters]="semesters"></app-module-list>
-  </div>
-</div>
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link active" routerLink="/degree" routerLinkActive="active">Semesterübersicht</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLink="/semester">HS 2021</a>
+  </li>
+</ul>
+<router-outlet></router-outlet>

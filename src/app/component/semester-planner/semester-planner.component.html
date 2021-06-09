@@ -1,0 +1,30 @@
+<div class="row flex-fill" style="min-height:0;height: 92vh">
+    <div class="col-9 mh-100 " style="overflow-y: scroll; height: 100%;">
+        <div class="row">
+            <div *ngFor="let day of [0,1,2,3,4,5,6]" class="col block m-2">
+                <h6 class="text-muted" i18n>
+                    {day, select, 0{} 1 {Montag} 2 {Dienstag} 3 {Mittwoch} 4 {Donnerstag} 5 {Freitag} 6{Samstag}}
+                </h6>
+            </div>
+        </div>
+        <div *ngFor="let blockRow of week.blocks |keyvalue" class="row block-row border rounded m-2"
+            style="min-height: 108px;">
+            <div class="col time " style="display: flex;
+            align-items: center; " i18n>
+                <p>
+                    {blockRow.key, select, 1 {09:05-11-25} 2 {12:50-15:10} 3 {13:30-17:50} 4 {18:30-20:50}}
+                </p>
+            </div>
+            <div *ngFor="let block of blockRow.value |keyvalue" class="col block">
+
+                <div *ngFor="let module of block.value.modules" class="col">
+                    <app-calendar-module [module]="module" [blockNo]="blockRow.key" [dayNo]="block.key" [week]="week">
+                    </app-calendar-module>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-3 mh-100" style="overflow-y: scroll; height: 100%;">
+        <app-execution-list [week]="week"></app-execution-list>
+    </div>
+</div>
